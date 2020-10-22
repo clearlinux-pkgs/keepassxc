@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB7A66F03B59076A8 (release@keepassxc.org)
 #
 Name     : keepassxc
-Version  : 2.6.1
-Release  : 20
-URL      : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.1/keepassxc-2.6.1-src.tar.xz
-Source0  : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.1/keepassxc-2.6.1-src.tar.xz
-Source1  : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.1/keepassxc-2.6.1-src.tar.xz.sig
+Version  : 2.6.2
+Release  : 21
+URL      : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.2/keepassxc-2.6.2-src.tar.xz
+Source0  : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.2/keepassxc-2.6.2-src.tar.xz
+Source1  : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.2/keepassxc-2.6.2-src.tar.xz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause CC0-1.0 GPL-2.0 GPL-3.0 LGPL-2.1 LGPL-3.0 MIT OFL-1.1
@@ -75,15 +75,15 @@ license components for the keepassxc package.
 
 
 %prep
-%setup -q -n keepassxc-2.6.1
-cd %{_builddir}/keepassxc-2.6.1
+%setup -q -n keepassxc-2.6.2
+cd %{_builddir}/keepassxc-2.6.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1597954422
+export SOURCE_DATE_EPOCH=1603390969
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -109,18 +109,18 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 LD_LIBRARY_PATH=/usr/lib64 ctest .
 
 %install
-export SOURCE_DATE_EPOCH=1597954422
+export SOURCE_DATE_EPOCH=1603390969
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/keepassxc
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.BSD %{buildroot}/usr/share/package-licenses/keepassxc/b550c747927caf17f4a96cb188467315e5f0ca8a
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.CC0 %{buildroot}/usr/share/package-licenses/keepassxc/a6d187f326922e8d9bcc1ce585e92fa8d1700c4e
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.GPL-2 %{buildroot}/usr/share/package-licenses/keepassxc/06877624ea5c77efe3b7e39b0f909eda6e25a4ec
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.GPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/842745cb706f8f2126506f544492f7a80dbe29b3
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.LGPL-2.1 %{buildroot}/usr/share/package-licenses/keepassxc/3704f4680301a60004b20f94e0b5b8c7ff1484a9
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.LGPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/f45ee1c765646813b442ca58de72e20a64a7ddba
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.MIT %{buildroot}/usr/share/package-licenses/keepassxc/6f86c7f33294f02ab56862165f378421999f1840
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.NOKIA-LGPL-EXCEPTION %{buildroot}/usr/share/package-licenses/keepassxc/17848d7714522f96d68e99d87509c582e2244c50
-cp %{_builddir}/keepassxc-2.6.1/LICENSE.OFL %{buildroot}/usr/share/package-licenses/keepassxc/931598fba0b3756401d967c3a7bab7ceaeb259ca
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.BSD %{buildroot}/usr/share/package-licenses/keepassxc/b550c747927caf17f4a96cb188467315e5f0ca8a
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.CC0 %{buildroot}/usr/share/package-licenses/keepassxc/a6d187f326922e8d9bcc1ce585e92fa8d1700c4e
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.GPL-2 %{buildroot}/usr/share/package-licenses/keepassxc/06877624ea5c77efe3b7e39b0f909eda6e25a4ec
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.GPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/842745cb706f8f2126506f544492f7a80dbe29b3
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.LGPL-2.1 %{buildroot}/usr/share/package-licenses/keepassxc/3704f4680301a60004b20f94e0b5b8c7ff1484a9
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.LGPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/f45ee1c765646813b442ca58de72e20a64a7ddba
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.MIT %{buildroot}/usr/share/package-licenses/keepassxc/6f86c7f33294f02ab56862165f378421999f1840
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.NOKIA-LGPL-EXCEPTION %{buildroot}/usr/share/package-licenses/keepassxc/17848d7714522f96d68e99d87509c582e2244c50
+cp %{_builddir}/keepassxc-2.6.2/LICENSE.OFL %{buildroot}/usr/share/package-licenses/keepassxc/931598fba0b3756401d967c3a7bab7ceaeb259ca
 pushd clr-build
 %make_install
 popd
@@ -154,6 +154,7 @@ popd
 /usr/share/keepassxc/translations/keepassx_da.qm
 /usr/share/keepassxc/translations/keepassx_de.qm
 /usr/share/keepassxc/translations/keepassx_en.qm
+/usr/share/keepassxc/translations/keepassx_en_GB.qm
 /usr/share/keepassxc/translations/keepassx_en_US.qm
 /usr/share/keepassxc/translations/keepassx_es.qm
 /usr/share/keepassxc/translations/keepassx_et.qm
@@ -168,7 +169,6 @@ popd
 /usr/share/keepassxc/translations/keepassx_nb.qm
 /usr/share/keepassxc/translations/keepassx_nl_NL.qm
 /usr/share/keepassxc/translations/keepassx_pl.qm
-/usr/share/keepassxc/translations/keepassx_pt.qm
 /usr/share/keepassxc/translations/keepassx_pt_BR.qm
 /usr/share/keepassxc/translations/keepassx_pt_PT.qm
 /usr/share/keepassxc/translations/keepassx_ro.qm
