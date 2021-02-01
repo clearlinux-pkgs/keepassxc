@@ -6,7 +6,7 @@
 #
 Name     : keepassxc
 Version  : 2.6.4
-Release  : 24
+Release  : 25
 URL      : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.4/keepassxc-2.6.4-src.tar.xz
 Source0  : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.4/keepassxc-2.6.4-src.tar.xz
 Source1  : https://github.com/keepassxreboot/keepassxc/releases/download/2.6.4/keepassxc-2.6.4-src.tar.xz.sig
@@ -31,6 +31,7 @@ BuildRequires : qtbase-dev mesa-dev
 BuildRequires : qtx11extras-dev
 BuildRequires : quazip-dev
 BuildRequires : zlib-dev
+Patch1: keepassxc-quazip1.patch
 
 %description
 # <img src="https://keepassxc.org/images/keepassxc-logo.svg" width="40" height="40"/> KeePassXC
@@ -77,13 +78,14 @@ license components for the keepassxc package.
 %prep
 %setup -q -n keepassxc-2.6.4
 cd %{_builddir}/keepassxc-2.6.4
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1612201920
+export SOURCE_DATE_EPOCH=1612218090
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -92,12 +94,13 @@ export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DWITH_XC_BROWSER=ON \
--DWITH_XC_NETWORKING=ON \
--DWITH_XC_SSHAGENT=ON \
+-DWITH_XC_DOCS=OFF \
+-DWITH_XC_FDOSECRETS=ON \
 -DWITH_XC_KEESHARE=ON \
 -DWITH_XC_KEESHARE_SECURE=ON \
--DWITH_XC_UPDATECHECK=OFF \
--DWITH_XC_DOCS=OFF
+-DWITH_XC_NETWORKING=ON \
+-DWITH_XC_SSHAGENT=ON \
+-DWITH_XC_UPDATECHECK=OFF
 make  %{?_smp_mflags}
 popd
 
@@ -109,7 +112,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 LD_LIBRARY_PATH=/usr/lib64 ctest .
 
 %install
-export SOURCE_DATE_EPOCH=1612201920
+export SOURCE_DATE_EPOCH=1612218090
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/keepassxc
 cp %{_builddir}/keepassxc-2.6.4/LICENSE.BSD %{buildroot}/usr/share/package-licenses/keepassxc/b550c747927caf17f4a96cb188467315e5f0ca8a
