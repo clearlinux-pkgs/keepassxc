@@ -1,5 +1,7 @@
 # This file contains additional pkgconfig build requirements that did
 # not get picked up automatically. One name per line, no whitespace.
 botan-2
+gl
 libargon2
+libusb-1.0
 readline

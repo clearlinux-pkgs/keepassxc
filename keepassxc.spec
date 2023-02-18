@@ -6,7 +6,7 @@
 #
 Name     : keepassxc
 Version  : 2.7.4
-Release  : 33
+Release  : 34
 URL      : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.4/keepassxc-2.7.4-src.tar.xz
 Source0  : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.4/keepassxc-2.7.4-src.tar.xz
 Source1  : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.4/keepassxc-2.7.4-src.tar.xz.sig
@@ -24,14 +24,19 @@ BuildRequires : glibc-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86vm-dev
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(botan-2)
+BuildRequires : pkgconfig(gl)
 BuildRequires : pkgconfig(libargon2)
 BuildRequires : pkgconfig(libpcsclite)
+BuildRequires : pkgconfig(libusb-1.0)
 BuildRequires : pkgconfig(readline)
 BuildRequires : qrencode-dev
 BuildRequires : qtbase-dev mesa-dev
 BuildRequires : qtx11extras-dev
 BuildRequires : quazip-dev
 BuildRequires : zlib-dev
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 
 %description
 # <img src="https://keepassxc.org/images/keepassxc-logo.svg" width="40" height="40"/> KeePassXC
@@ -84,25 +89,23 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1667094231
+export SOURCE_DATE_EPOCH=1676682785
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
-export AR=gcc-ar
-export RANLIB=gcc-ranlib
-export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
-%cmake .. -DWITH_XC_BROWSER=ON \
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+%cmake .. -DWITH_ASAN=ON \
+-DWITH_XC_BROWSER=ON \
 -DWITH_XC_DOCS=OFF \
 -DWITH_XC_FDOSECRETS=ON \
 -DWITH_XC_KEESHARE=ON \
--DWITH_XC_KEESHARE_SECURE=ON \
 -DWITH_XC_NETWORKING=ON \
 -DWITH_XC_SSHAGENT=ON \
--DWITH_XC_UPDATECHECK=OFF
+-DWITH_XC_UPDATECHECK=OFF \
+-DWITH_XC_YUBIKEY=ON
 make  %{?_smp_mflags}
 popd
 
@@ -114,18 +117,18 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 LD_LIBRARY_PATH=/usr/lib64 ctest .
 
 %install
-export SOURCE_DATE_EPOCH=1667094231
+export SOURCE_DATE_EPOCH=1676682785
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/keepassxc
-cp %{_builddir}/keepassxc-%{version}/LICENSE.BSD %{buildroot}/usr/share/package-licenses/keepassxc/b550c747927caf17f4a96cb188467315e5f0ca8a
-cp %{_builddir}/keepassxc-%{version}/LICENSE.CC0 %{buildroot}/usr/share/package-licenses/keepassxc/a6d187f326922e8d9bcc1ce585e92fa8d1700c4e
-cp %{_builddir}/keepassxc-%{version}/LICENSE.GPL-2 %{buildroot}/usr/share/package-licenses/keepassxc/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/keepassxc-%{version}/LICENSE.GPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/31a3d460bb3c7d98845187c716a30db81c44b615
-cp %{_builddir}/keepassxc-%{version}/LICENSE.LGPL-2.1 %{buildroot}/usr/share/package-licenses/keepassxc/01a6b4bf79aca9b556822601186afab86e8c4fbf
-cp %{_builddir}/keepassxc-%{version}/LICENSE.LGPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/a8a12e6867d7ee39c21d9b11a984066099b6fb6b
-cp %{_builddir}/keepassxc-%{version}/LICENSE.MIT %{buildroot}/usr/share/package-licenses/keepassxc/6f86c7f33294f02ab56862165f378421999f1840
-cp %{_builddir}/keepassxc-%{version}/LICENSE.NOKIA-LGPL-EXCEPTION %{buildroot}/usr/share/package-licenses/keepassxc/17848d7714522f96d68e99d87509c582e2244c50
-cp %{_builddir}/keepassxc-%{version}/LICENSE.OFL %{buildroot}/usr/share/package-licenses/keepassxc/931598fba0b3756401d967c3a7bab7ceaeb259ca
+cp %{_builddir}/keepassxc-%{version}/LICENSE.BSD %{buildroot}/usr/share/package-licenses/keepassxc/b550c747927caf17f4a96cb188467315e5f0ca8a || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.CC0 %{buildroot}/usr/share/package-licenses/keepassxc/a6d187f326922e8d9bcc1ce585e92fa8d1700c4e || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.GPL-2 %{buildroot}/usr/share/package-licenses/keepassxc/4cc77b90af91e615a64ae04893fdffa7939db84c || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.GPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/31a3d460bb3c7d98845187c716a30db81c44b615 || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.LGPL-2.1 %{buildroot}/usr/share/package-licenses/keepassxc/01a6b4bf79aca9b556822601186afab86e8c4fbf || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.LGPL-3 %{buildroot}/usr/share/package-licenses/keepassxc/a8a12e6867d7ee39c21d9b11a984066099b6fb6b || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.MIT %{buildroot}/usr/share/package-licenses/keepassxc/6f86c7f33294f02ab56862165f378421999f1840 || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.NOKIA-LGPL-EXCEPTION %{buildroot}/usr/share/package-licenses/keepassxc/17848d7714522f96d68e99d87509c582e2244c50 || :
+cp %{_builddir}/keepassxc-%{version}/LICENSE.OFL %{buildroot}/usr/share/package-licenses/keepassxc/931598fba0b3756401d967c3a7bab7ceaeb259ca || :
 pushd clr-build
 %make_install
 popd
