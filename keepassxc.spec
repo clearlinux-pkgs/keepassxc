@@ -7,7 +7,7 @@
 #
 Name     : keepassxc
 Version  : 2.7.5
-Release  : 35
+Release  : 36
 URL      : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.5/keepassxc-2.7.5-src.tar.xz
 Source0  : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.5/keepassxc-2.7.5-src.tar.xz
 Source1  : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.5/keepassxc-2.7.5-src.tar.xz.sig
@@ -90,7 +90,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1684172127
+export SOURCE_DATE_EPOCH=1684186176
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -98,7 +98,7 @@ export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-l
 export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-%cmake .. -DWITH_ASAN=ON \
+%cmake .. -DWITH_ASAN=OFF \
 -DWITH_XC_BROWSER=ON \
 -DWITH_XC_DOCS=OFF \
 -DWITH_XC_FDOSECRETS=ON \
@@ -120,7 +120,7 @@ export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
-%cmake .. -DWITH_ASAN=ON \
+%cmake .. -DWITH_ASAN=OFF \
 -DWITH_XC_BROWSER=ON \
 -DWITH_XC_DOCS=OFF \
 -DWITH_XC_FDOSECRETS=ON \
@@ -140,7 +140,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 LD_LIBRARY_PATH=/usr/lib64 ctest .
 
 %install
-export SOURCE_DATE_EPOCH=1684172127
+export SOURCE_DATE_EPOCH=1684186176
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/keepassxc
 cp %{_builddir}/keepassxc-%{version}/LICENSE.BSD %{buildroot}/usr/share/package-licenses/keepassxc/b550c747927caf17f4a96cb188467315e5f0ca8a || :

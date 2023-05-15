@@ -9,7 +9,6 @@ libQt5X11Extras.so.5
 libX11.so.6
 libXtst.so.6
 libargon2.so.1
-libasan.so.8
 libbotan-2.so.19
 libc.so.6
 libgcc_s.so.1
