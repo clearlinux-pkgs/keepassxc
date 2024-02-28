@@ -9,7 +9,7 @@
 #
 Name     : keepassxc
 Version  : 2.7.6
-Release  : 40
+Release  : 41
 URL      : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.6/keepassxc-2.7.6-src.tar.xz
 Source0  : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.6/keepassxc-2.7.6-src.tar.xz
 Source1  : https://github.com/keepassxreboot/keepassxc/releases/download/2.7.6/keepassxc-2.7.6-src.tar.xz.sig
